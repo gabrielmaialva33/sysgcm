@@ -3,17 +3,17 @@ import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import validator from 'validator'
 import isUUID = validator.isUUID
 
-import CreateNewBairroValidator from 'App/Modules/Endereco/Validators/bairro/CreateNewBairroValidator'
-
-import IndexBairroService from 'App/Modules/Endereco/Services/bairro/IndexBairroService'
-import CreateBairroService from 'App/Modules/Endereco/Services/bairro/CreateBairroService'
-import UpdateBairroService from 'App/Modules/Endereco/Services/bairro/UpdateBairroService'
-import DeleteBairroService from 'App/Modules/Endereco/Services/bairro/DeleteBairroService'
+import { CreateNewBairroValidator } from 'App/Modules/Endereco/Validators'
+import {
+  IndexBairroService,
+  CreateBairroService,
+  UpdateBairroService,
+  DeleteBairroService,
+} from 'App/Modules/Endereco/Services'
 
 import AppException from 'App/Shared/Exceptions/AppException'
 
 export default class BairrosController {
-  //* -> INDEX
   public async index({ request, response }: HttpContextContract): Promise<void> {
     const search = request.input('search', '')
 
@@ -22,7 +22,6 @@ export default class BairrosController {
     return response.json(bairros)
   }
 
-  //* -> CREATE
   public async create({ request, response }: HttpContextContract): Promise<void> {
     const bairro_dto = await request.validate(CreateNewBairroValidator)
 
@@ -31,7 +30,6 @@ export default class BairrosController {
     return response.json(bairro)
   }
 
-  //* -> UPDATE
   public async update({ request, response }: HttpContextContract): Promise<void> {
     const { id } = request.params()
     if (!isUUID(id, 4)) {
@@ -56,7 +54,6 @@ export default class BairrosController {
     return response.json(bairro_id)
   }
 
-  //* -> DELETE
   public async delete({ request, response }: HttpContextContract): Promise<void> {
     const { id } = request.params()
 

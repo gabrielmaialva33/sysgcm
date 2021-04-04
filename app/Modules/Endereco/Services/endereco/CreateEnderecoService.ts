@@ -24,7 +24,7 @@ interface IRequestGcmData {
   bairro_id: string
 }
 
-class CreateEnderecoService {
+export class CreateEnderecoService {
   public async executeForEndereco({
     logradouro,
     numero,
@@ -90,5 +90,3 @@ class CreateEnderecoService {
     }
   }
 }
-
-export default new CreateEnderecoService()

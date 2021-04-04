@@ -1,2 +1,5 @@
 export * from './gcm/index'
 export * from './escala/index'
+export * from './dados_pessoais/index'
+export * from './bairro'
+export * from './endereco'

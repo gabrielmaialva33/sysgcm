@@ -17,7 +17,7 @@ interface IRequestData {
   bairros_id?: string
 }
 
-class UpdateEnderecoService {
+export class UpdateEnderecoService {
   public async execute({
     endereco_id,
     logradouro,
@@ -68,5 +68,3 @@ class UpdateEnderecoService {
     }
   }
 }
-
-export default new UpdateEnderecoService()

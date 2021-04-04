@@ -1,7 +1,7 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateGcmEnderecoValidator {
+export class CreateGcmEnderecoValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({

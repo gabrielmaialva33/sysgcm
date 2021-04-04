@@ -1,101 +1,41 @@
-import { DateTime } from 'luxon'
-import {
-  cutis,
-  escolaridade,
-  estado_civil,
-  sexo,
-  tipo_cnh,
-  tipo_sanguineo,
-} from 'App/Modules/Gcm/Models/types/EnumTypes'
+import { inject, injectable } from 'tsyringe'
 
-import DadosPessoais from 'App/Modules/Gcm/Models/DadosPessoais'
-import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
+import { IUpdateDadosPessoaisDTO } from 'App/Modules/Gcm/DTOs'
+import { IDadosPessoaisRepository } from 'App/Modules/Gcm/Interfaces'
+import { IMunicipiosRepository } from 'App/Modules/Endereco/Interfaces'
+
 import AppException from 'App/Shared/Exceptions/AppException'
+import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
 
-interface IRequestData {
-  dados_pessoais_id: string
-  nome?: string
-  rg?: string
-  cpf?: string
-  data_nascimento?: DateTime
-  nome_mae?: string
-  nome_pai?: string
-  telefone?: string[]
-  municipio_nascimento_id?: string
-  sexo?: sexo
-  cutis?: cutis
-  tipo_sanguineo?: tipo_sanguineo
-  estado_civil?: estado_civil
-  profissao?: string[]
-  escolaridade?: escolaridade
-  nome_conjuge?: string
-  nome_filhos?: string[]
-  titulo_eleitor?: string
-  zona_eleitoral?: string
-  cnh?: string
-  tipo_cnh?: tipo_cnh
-  validade_cnh?: DateTime
-  observacao?: string
-}
+@injectable()
+export class UpdateDadosPessoaisService {
+  constructor(
+    @inject('DadosPessoaisRepository')
+    private dadosPessoaisRepository: IDadosPessoaisRepository,
 
-class UpdateDadosPessoaisService {
-  public async execute({
-    dados_pessoais_id,
-    nome,
-    rg,
-    cpf,
-    data_nascimento,
-    telefone,
-    nome_mae,
-    nome_pai,
-    municipio_nascimento_id,
-    sexo,
-    cutis,
-    tipo_sanguineo,
-    estado_civil,
-    profissao,
-    escolaridade,
-    nome_conjuge,
-    nome_filhos,
-    titulo_eleitor,
-    zona_eleitoral,
-    cnh,
-    tipo_cnh,
-    validade_cnh,
-    observacao,
-  }: IRequestData) {
-    const dados_pessoais_exists = await DadosPessoais.findBy('id', dados_pessoais_id)
+    @inject('MunicipiosRepository')
+    private municipiosRepository: IMunicipiosRepository
+  ) {}
+
+  public async execute(data: IUpdateDadosPessoaisDTO) {
+    const dados_pessoais_exists = await this.dadosPessoaisRepository.findById(
+      data.dados_pessoais_id
+    )
     if (!dados_pessoais_exists) {
       throw new NotFoundException('Erro ao atualizar informações: dados pessoais não encontrado.')
     }
 
-    dados_pessoais_exists.merge({
-      nome,
-      rg,
-      cpf,
-      data_nascimento,
-      telefone,
-      nome_mae,
-      nome_pai,
-      municipio_nascimento_id,
-      sexo,
-      cutis,
-      tipo_sanguineo,
-      estado_civil,
-      profissao,
-      escolaridade,
-      nome_conjuge,
-      nome_filhos,
-      titulo_eleitor,
-      zona_eleitoral,
-      cnh,
-      tipo_cnh,
-      validade_cnh,
-      observacao,
-    })
+    const municipio_exists = await this.municipiosRepository.findById(data.municipio_nascimento_id)
+    if (!municipio_exists) {
+      throw new NotFoundException(
+        'Erro ao atualizar informações: cidade nascimento não encontrada.'
+      )
+    }
+
+    dados_pessoais_exists.merge(data)
 
     try {
-      await dados_pessoais_exists.save()
+      await this.dadosPessoaisRepository.update(dados_pessoais_exists)
 
       return dados_pessoais_exists.id
     } catch (error) {
@@ -103,5 +43,3 @@ class UpdateDadosPessoaisService {
     }
   }
 }
-
-export default new UpdateDadosPessoaisService()

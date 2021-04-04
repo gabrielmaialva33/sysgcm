@@ -4,7 +4,7 @@ import Bairro from 'App/Modules/Endereco/Models/Bairro'
 import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
 import AppException from 'App/Shared/Exceptions/AppException'
 
-class IndexBairroService {
+export class IndexBairroService {
   public async execute(search: string): Promise<Bairro[]> {
     const municipio_itarare = await Municipio.findBy('codigo_ibge', '3523206')
     if (!municipio_itarare) {
@@ -25,5 +25,3 @@ class IndexBairroService {
     }
   }
 }
-
-export default new IndexBairroService()

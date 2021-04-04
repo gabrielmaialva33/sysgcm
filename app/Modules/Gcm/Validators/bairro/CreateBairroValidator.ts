@@ -1,12 +1,11 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateGcmBairroValidator {
+export class CreateBairroValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
     municipio_itarare: schema.boolean([rules.required()]),
-
     codigo_bairro: schema.string.optional({}, [
       rules.requiredWhen('municipio_itarare', '=', true),
       rules.exists({

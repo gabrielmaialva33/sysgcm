@@ -12,8 +12,18 @@ import {
   GcmsRepository,
 } from 'App/Modules/Gcm/Repositories'
 
-import { IEnderecosRepository } from 'App/Modules/Endereco/Interfaces'
-import { EnderecosRepository } from 'App/Modules/Endereco/Repositories'
+import {
+  IEstadosRepository,
+  IBairrosRepository,
+  IMunicipiosRepository,
+  IEnderecosRepository,
+} from 'App/Modules/Endereco/Interfaces'
+import {
+  EstadosRepository,
+  MunicipiosRepository,
+  BairrosRepository,
+  EnderecosRepository,
+} from 'App/Modules/Endereco/Repositories'
 
 import {
   IUsersRepository,
@@ -24,12 +34,12 @@ import { UsersRepository, RolesRepository, KeycodesRepository } from 'App/Module
 
 /* -------------------------------- Singleton --------------------------------*/
 
-// user
+// -> user
 container.registerSingleton<IUsersRepository>('UsersRepository', UsersRepository)
 container.registerSingleton<IKeycodesRepository>('KeycodesRepository', KeycodesRepository)
 container.registerSingleton<IRolesRepository>('RolesRepository', RolesRepository)
 
-// gcm
+// -> gcm
 container.registerSingleton<IDadosPessoaisRepository>(
   'DadosPessoaisRepository',
   DadosPessoaisRepository
@@ -37,4 +47,8 @@ container.registerSingleton<IDadosPessoaisRepository>(
 container.registerSingleton<IEscalaRepository>('EscalaRepository', EscalaRepository)
 container.registerSingleton<IGcmsRepository>('GcmsRepository', GcmsRepository)
 
+// -> endereco
+container.registerSingleton<IEstadosRepository>('EstadosRepository', EstadosRepository)
+container.registerSingleton<IMunicipiosRepository>('MunicipiosRepository', MunicipiosRepository)
+container.registerSingleton<IBairrosRepository>('BairrosRepository', BairrosRepository)
 container.registerSingleton<IEnderecosRepository>('EnderecosRepository', EnderecosRepository)

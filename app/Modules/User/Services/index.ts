@@ -1,5 +1,3 @@
-export * from './user/ShowUserService'
-export * from './user/CreateUserService'
-export * from './user/UpdateUserService'
-
-export * from './escala/IndexEscalaService'
+export * from './user/index'
+export * from './escala/index'
+export * from './keycode/index'

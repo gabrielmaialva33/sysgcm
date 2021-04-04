@@ -19,7 +19,7 @@ interface IRequestGcmData {
   municipio_id?: string
 }
 
-class UpdateBairroService {
+export class UpdateBairroService {
   public async executeForBairro({
     bairro_id,
     bairro,
@@ -98,5 +98,3 @@ class UpdateBairroService {
     }
   }
 }
-
-export default new UpdateBairroService()

@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe'
+
 import { IGcmsRepository } from 'App/Modules/Gcm/Interfaces'
 
 import NotFoundException from 'App/Shared/Exceptions/NotFoundException'

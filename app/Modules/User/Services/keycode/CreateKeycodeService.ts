@@ -12,7 +12,7 @@ interface IRequestData {
 }
 
 @injectable()
-class CreateKeycodeService {
+export class CreateKeycodeService {
   constructor(
     @inject('GcmsRepository')
     private gcmsRepository: IGcmsRepository,
@@ -60,5 +60,3 @@ class CreateKeycodeService {
     return key
   }
 }
-
-export default CreateKeycodeService

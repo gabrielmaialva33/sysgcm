@@ -1,10 +1,10 @@
 import DadosPessoais from 'App/Modules/Gcm/Models/DadosPessoais'
 
 import { IDadosPessoaisRepository } from 'App/Modules/Gcm/Interfaces'
-import { ICreateDadosPessoais } from 'App/Modules/Gcm/DTOs'
+import { ICreateDadosPessoaisDTO } from 'App/Modules/Gcm/DTOs'
 
 export class DadosPessoaisRepository implements IDadosPessoaisRepository {
-  public async create(data: ICreateDadosPessoais): Promise<DadosPessoais> {
+  public async create(data: ICreateDadosPessoaisDTO): Promise<DadosPessoais> {
     return await DadosPessoais.create(data)
   }
 

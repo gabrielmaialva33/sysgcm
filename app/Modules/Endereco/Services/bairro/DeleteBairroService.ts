@@ -1,12 +1,24 @@
+import { inject, injectable } from 'tsyringe'
+
 import Bairro from 'App/Modules/Endereco/Models/Bairro'
 import Endereco from 'App/Modules/Endereco/Models/Enderecos'
 
 import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
 import AppException from 'App/Shared/Exceptions/AppException'
+import { IBairrosRepository, IEnderecosRepository } from 'App/Modules/Endereco/Interfaces'
 
-class DeleteBairroService {
+@injectable()
+export class DeleteBairroService {
+  constructor(
+    @inject('BairrosRepository')
+    private bairrosRepository: IBairrosRepository,
+
+    @inject('EnderecosRepository')
+    private enderecosRepository: IEnderecosRepository
+  ) {}
+
   public async execute(bairro_id: string): Promise<void> {
-    const bairro = await Bairro.findBy('id', bairro_id)
+    const bairro = await this.bairrosRepository.findById(bairro_id)
     if (!bairro) {
       throw new NotFoundException('Erro ao excluir bairro: bairros não encontrado.')
     }
@@ -25,5 +37,3 @@ class DeleteBairroService {
     }
   }
 }
-
-export default new DeleteBairroService()

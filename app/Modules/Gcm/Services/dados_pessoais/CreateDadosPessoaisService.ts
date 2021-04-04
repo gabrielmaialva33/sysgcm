@@ -1,9 +1,8 @@
 import { inject, injectable } from 'tsyringe'
 
-import Municipio from 'App/Modules/Endereco/Models/Municipio'
-
-import { ICreateDadosPessoais } from 'App/Modules/Gcm/DTOs'
+import { ICreateDadosPessoaisDTO } from 'App/Modules/Gcm/DTOs'
 import { IDadosPessoaisRepository } from 'App/Modules/Gcm/Interfaces'
+import { IMunicipiosRepository } from 'App/Modules/Endereco/Interfaces'
 
 import AppException from 'App/Shared/Exceptions/AppException'
 import ConflictException from 'App/Shared/Exceptions/ConflictException'
@@ -13,10 +12,13 @@ import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
 export class CreateDadosPessoaisService {
   constructor(
     @inject('DadosPessoaisRepository')
-    private dadosPessoaisRepository: IDadosPessoaisRepository
+    private dadosPessoaisRepository: IDadosPessoaisRepository,
+
+    @inject('MunicipiosRepository')
+    private municipiosRepository: IMunicipiosRepository
   ) {}
 
-  public async execute(data: ICreateDadosPessoais): Promise<string> {
+  public async execute(data: ICreateDadosPessoaisDTO): Promise<string> {
     // -> checker  exists
     const cpf_exists = await this.dadosPessoaisRepository.findByCpf(data.cpf)
     if (cpf_exists) {
@@ -39,7 +41,7 @@ export class CreateDadosPessoaisService {
       }
     }
 
-    const municipio_exists = await Municipio.findBy('id', data.municipio_nascimento_id)
+    const municipio_exists = await this.municipiosRepository.findById(data.municipio_nascimento_id)
     if (!municipio_exists) {
       throw new NotFoundException('Municipio de nascimento não encontrado.')
     }

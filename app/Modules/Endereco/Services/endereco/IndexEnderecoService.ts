@@ -2,7 +2,7 @@ import Endereco from 'App/Modules/Endereco/Models/Enderecos'
 
 import AppException from 'App/Shared/Exceptions/AppException'
 
-class IndexEnderecoService {
+export class IndexEnderecoService {
   public async execute(search: string) {
     try {
       return await Endereco.query()
@@ -17,5 +17,3 @@ class IndexEnderecoService {
     }
   }
 }
-
-export default new IndexEnderecoService()

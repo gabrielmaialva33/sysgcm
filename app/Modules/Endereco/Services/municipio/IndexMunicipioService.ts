@@ -1,26 +1,21 @@
-import Municipio from 'App/Modules/Endereco/Models/Municipio'
+import { inject, injectable } from 'tsyringe'
+
+import { IMunicipiosRepository, IRequestMunicipioParams } from 'App/Modules/Endereco/Interfaces'
+
 import AppException from 'App/Shared/Exceptions/AppException'
 
-interface IRequestParams {
-  page: number
-  search: string
-  state: string
-}
+@injectable()
+export class IndexMunicipioService {
+  constructor(
+    @inject('MunicipiosRepository')
+    private municipiosRepository: IMunicipiosRepository
+  ) {}
 
-class IndexMunicipioService {
-  public async execute({ page, search, state }: IRequestParams): Promise<Municipio[]> {
+  public async execute({ page, search, state }: IRequestMunicipioParams) {
     try {
-      return await Municipio.query()
-        .apply((scopes) => {
-          scopes.scopeSearchQuery(search, state)
-        })
-        .preload('estado')
-        .orderBy('municipio', 'asc')
-        .paginate(page, 20)
+      return this.municipiosRepository.index({ page, search, state })
     } catch (error) {
       throw new AppException('Não foi possível listar os municípios, tente novamente mais tarde. ')
     }
   }
 }
-
-export default new IndexMunicipioService()

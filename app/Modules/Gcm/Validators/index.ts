@@ -1,7 +1,4 @@
-export * from './escala/CreateEscalaValidator'
-
-export * from './dados_pessoais/CreateDadosPessoaisValidator'
-export * from './dados_pessoais/UpdateDadosPessoaisValidator'
-
-export * from './gcm/CreateGcmValidator'
-export * from './gcm/UpdateGcmValidator'
+export * from './dados_pessoais'
+export * from './escala'
+export * from './gcm'
+export * from './bairro'
